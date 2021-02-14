@@ -49,7 +49,9 @@
 
       <section id="transaction">
         <h2 class="sr-only">Transações</h2>
-        <a href="#" class="button new">+ Nova transação</a>
+        <a href="#" onclick="Modal.open()"class="button new"
+          >+ Nova transação</a
+        >
 
         <table id="data-table">
           <thead>
@@ -66,7 +68,10 @@
               <td class="expense">- R$ 500,00</td>
               <td class="date">23/01/2021</td>
               <td>
-                  <img src="./assets/minus.svg" alt="botão para remover transações">
+                <img
+                  src="./assets/minus.svg"
+                  alt="botão para remover transações"
+                />
               </td>
             </tr>
             <tr>
@@ -74,62 +79,91 @@
               <td class="income">R$ 5.000,00</td>
               <td class="date">23/01/2021</td>
               <td>
-                <img src="./assets/minus.svg" alt="botão para remover transações">
-            </td>
+                <img
+                  src="./assets/minus.svg"
+                  alt="botão para remover transações"
+                />
+              </td>
             </tr>
             <tr>
               <td class="description">Internet</td>
               <td class="expense">- R$ 200,00</td>
               <td class="date">23/01/2021</td>
               <td>
-                <img src="./assets/minus.svg" alt="botão para remover transações">
-            </td>
+                <img
+                  src="./assets/minus.svg"
+                  alt="botão para remover transações"
+                />
+              </td>
             </tr>
           </tbody>
         </table>
       </section>
     </main>
-    <div class="modal-overlay active">
-        <div class="modal">
-               <div id="form">
-                   <h2>Nova transação</h2>
-                   <form action="">
-                       <div class="input-group">
-                           <label class="sr-only" for="description">Descrição</label>
-                           <input type="text"
-                            id="description"
-                             name="description" placeholder="Descrição">
-                       </div>
-
-                       <div class="input-group">
-                        <label class="sr-only" for="amount">Valor</label>
-                        <input type="number"
-                        step="0.01"
-                         id="amount"
-                          name="amount" 
-                          placeholder="0.00">
-                          <small class="help">Use o sinal - (negativo) para despesas e , (virgula) para casas decimais.</small>
-                    </div>
-
-                    <div class="input-group">
-                        <label class="sr-only" for="date">Data</label>
-                        <input type="date"
-                         id="date"
-                          name="date">
-                    </div>
-                    <div class="input-group actions">
-                       <a href="#" class="button cancel">Cancelar</a>
-                       <button>Salvar</button>
-                    </div>
-                   </form>
-               </div>
+    <div class="modal-overlay">
+      <div class="modal">
+        <div id="form">
+          <h2>Nova transação</h2>
+          <form action="">
+            <div class="input-group">
+              <label class="sr-only" for="description">Descrição</label>
+              <input
+                type="text"
+                id="description"
+                name="description"
+                placeholder="Descrição"
+              />
             </div>
+
+            <div class="input-group">
+              <label class="sr-only" for="amount">Valor</label>
+              <input
+                type="number"
+                step="0.01"
+                id="amount"
+                name="amount"
+                placeholder="0.00"
+              />
+              <small class="help"
+                >Use o sinal - (negativo) para despesas e , (virgula) para casas
+                decimais.</small
+              >
+            </div>
+
+            <div class="input-group">
+              <label class="sr-only" for="date">Data</label>
+              <input type="date" id="date" name="date" />
+            </div>
+            <div class="input-group actions">
+              <a href="#" onclick="Modal.close()" class="button cancel"
+                >Cancelar</a
+              >
+              <button>Salvar</button>
+            </div>
+          </form>
         </div>
+      </div>
+    </div>
 
     <footer>
       <p>home.finance$</p>
     </footer>
-   
-    <script src="script.js"></script>
+
+    <script>
+      const Modal = {
+        open() {
+          // abrir o modal
+          // add a class active ao modal
+          document.querySelector("modal-overlay").classList.add("active");
+          alert('oi')
+        },
+        close() {
+          // fechar o modal
+          // remocer a class active modal
+          //
+          document.querySelector("modal-overlay").classList.remove("active");
+        }
+      };
+    </script>
   </body>
 </html>
