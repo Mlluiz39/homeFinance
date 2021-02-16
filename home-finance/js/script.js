@@ -23,7 +23,6 @@ const transactions = [
     date: "23/01/2021",
   },
   {
-
     description: "Internet",
     amount: -20012,
     date: "23/01/2021",
@@ -39,13 +38,13 @@ const Transaction = {
   all: transactions,
   add(transaction) {
     Transaction.all.push(transaction);
-    app.reload();
+    App.reload();
   },
 
   remove(index) {
-    Transaction.all.splice(index, 1)
+    Transaction.all.splice(index, 1);
 
-    app.reload()
+    App.reload();
   },
 
   incomes() {
@@ -74,7 +73,7 @@ const Transaction = {
   total() {
     return Transaction.incomes() + Transaction.expenses();
 
-    return "em casa";
+    return total;
   },
 };
 
@@ -83,12 +82,13 @@ const Dom = {
 
   addTransaction(transaction, index) {
     const tr = document.createElement("tr");
-    tr.innerHTML = Dom.innerHTMLTransaction(transaction);
+    tr.innerHTML = Dom.innerHTMLTransaction(transaction, index);
+    tr.dataset.index = index;
 
     Dom.transactionContainer.appendChild(tr);
   },
 
-  innerHTMLTransaction(transaction) {
+  innerHTMLTransaction(transaction, index) {
     const Cssclass = transaction.amount > 0 ? "income" : "expense";
 
     const amount = Utils.formatCurrency(transaction.amount);
@@ -98,7 +98,7 @@ const Dom = {
         <td class="${Cssclass}">${amount}</td>
         <td class="date">${transaction.date}</td>
         <td>
-        <imgsrc="./assets/minus.svg"alt=
+        <img onclick="Transaction.remove(${index})" src="./assets/minus.svg"alt=
         "botão para remover transações"
           />
         </td>
@@ -119,17 +119,22 @@ const Dom = {
   },
 
   clearTransactions() {
-    Dom.transactionContainer.innerHTML = ""
-  }
+    Dom.transactionContainer.innerHTML = "";
+  },
 };
 
 /*
 função para formatar os numeros como moeda brasileira */
 const Utils = {
   formatAmount(value) {
-    value = Number(value) * 100
-   
-    return value
+    value = Number(value) * 100;
+
+    return value;
+  },
+
+  formatdate(date) {
+    const splittedDate = date.split("-");
+    return `${splittedDate[2]}/${splittedDate[1]}/${splittedDate[0]}`;
   },
 
   formatCurrency(value) {
@@ -149,71 +154,70 @@ const Utils = {
 };
 
 const Form = {
-  description: document.querySelector("input#description"),
-  amount: document.querySelector("input#amount"),
-  date: document.querySelector("input#date"),
+  description: document.querySelector("#description"),
+  amount: document.querySelector("#amount"),
+  date: document.querySelector("#date"),
 
   getValue() {
     return {
       description: Form.description.value,
       amount: Form.amount.value,
-      date: Form.date.value
-    }
+      date: Form.date.value,
+    };
   },
-  
+
   validateFields() {
-    const { description, amount, date } = Form.getValue()
-   
-    if( description.trim() === "" || 
-        amount.trim() === "" || 
-        date.trim() === "") {
-            throw new Error("Por favor, preencha todos os campos!")
-    } 
+    const { description, amount, date } = Form.getValue();
+
+    if (
+      description.trim() === "" ||
+      amount.trim() === "" ||
+      date.trim() === ""
+    ) {
+      throw new Error("Por favor, preencha todos os campos!");
+    }
   },
 
   formatValues() {
-    let { description, amount, date } = Form.getValue()
+    let { description, amount, date } = Form.getValue();
 
-    amount = Utils.formatAmount(amount)
+    amount = Utils.formatAmount(amount);
+
+    date = Utils.formatdate(date);
+
+    return {
+      description,
+      amount,
+      date,
+    };
   },
 
   submit(event) {
-    event.preventDefault()
+    event.preventDefault();
 
     try {
-      //Form.validateFields()
-
-     Form.formatValues()
-
+      Form.validateFields();
+      const transaction = Form.formatValues();
+      
     } catch (error) {
-      alert(error.message)
-
+      alert(error.message);
     }
-
-  }
-};
-
-const app = {
-  init() {
-    Transaction.all.forEach (transaction => {
-      Dom.addTransaction(transaction);
-    }) 
-
-    Dom.updateBalance();
-
-  },    
-
-  reload() {
-    Dom.clearTransactions()
-    app.init()
   },
 };
 
-app.init()
+const App = {
+  init() {
+    Transaction.all.forEach((transaction, index) => {
+      Dom.addTransaction(transaction, index);
+    });
 
+    Dom.updateBalance();
+  },
 
+  reload() {
+    Dom.clearTransactions();
+    App.init();
+  },
+};
 
-
-
-
-
+App.init();
