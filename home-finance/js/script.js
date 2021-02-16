@@ -13,13 +13,15 @@ const Modal = {
 
 const Storage = {
   get() {
-    return JSON.parse(localStorage.getItem("home.finances:transactions")) || []
+    return JSON.parse(localStorage.getItem("home.finances:transactions")) || [];
+  },
 
-  }, 
-  
   set(transactions) {
-    localStorage.setItem("home.finances:transactions", JSON.stringify(transactions))
-  }
+    localStorage.setItem(
+      "home.finances:transactions",
+      JSON.stringify(transactions)
+    );
+  },
 };
 
 const transactions = [];
@@ -63,7 +65,6 @@ const Transaction = {
 
   total() {
     return Transaction.incomes() + Transaction.expenses();
-
   },
 };
 
@@ -124,7 +125,7 @@ const Utils = {
 
   formatdate(date) {
     const splittedDate = date.split("-");
-    return `${splittedDate[2]}/${splittedDate[1]}/${splittedDate[0]}`
+    return `${splittedDate[2]}/${splittedDate[1]}/${splittedDate[0]}`;
   },
 
   formatCurrency(value) {
@@ -179,13 +180,13 @@ const Form = {
       description,
       amount,
       date,
-    }
+    };
   },
 
   clearFields() {
-    Form.description.value = ""
-    Form.amount.value = ""
-    Form.date.value = ""
+    Form.description.value = "";
+    Form.amount.value = "";
+    Form.date.value = "";
   },
 
   submit(event) {
@@ -194,15 +195,14 @@ const Form = {
     try {
       Form.validateFields();
       const transaction = Form.formatValues();
-      Transaction.add(transaction)
-      Form.clearFields()
-      Modal.close()
+      Transaction.add(transaction);
+      Form.clearFields();
+      Modal.close();
     } catch (error) {
       alert(error.message);
     }
   },
 };
-
 
 const App = {
   init() {
@@ -212,7 +212,7 @@ const App = {
 
     Dom.updateBalance();
 
-    Storage.set(Transaction.all)
+    Storage.set(Transaction.all);
   },
   reload() {
     Dom.clearTransactions();
