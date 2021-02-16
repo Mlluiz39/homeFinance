@@ -11,23 +11,7 @@ const Modal = {
   },
 };
 
-const transactions = [
-  {
-    description: "Luz",
-    amount: -50001, // rack para numeros em valores de dinheiro
-    date: "23/01/2021",
-  },
-  {
-    description: "Website",
-    amount: 500000,
-    date: "23/01/2021",
-  },
-  {
-    description: "Internet",
-    amount: -20012,
-    date: "23/01/2021",
-  },
-];
+const transactions = [];
 
 const Transaction = {
   all: transactions,
