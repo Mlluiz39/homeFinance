@@ -11,12 +11,25 @@ const Modal = {
   },
 };
 
+const Storage = {
+  get() {
+    return JSON.parse(localStorage.getItem("home.finances:transactions")) || []
+
+  }, 
+  
+  set(transaction) {
+    localStorage.setItem("home.finances:transactions", JSON.stringify(transactions))
+  }
+};
+
 const transactions = [];
 
 const Transaction = {
-  all: transactions,
+  all: Storage.get(),
+
   add(transaction) {
     Transaction.all.push(transaction);
+
     App.reload();
   },
 
@@ -104,9 +117,9 @@ const Dom = {
 função para formatar os numeros como moeda brasileira */
 const Utils = {
   formatAmount(value) {
-    value = Number(value) * 100;
+    value = value * 100;
 
-    return value;
+    return Math.round(value);
   },
 
   formatdate(date) {
@@ -190,6 +203,7 @@ const Form = {
   },
 };
 
+
 const App = {
   init() {
     Transaction.all.forEach((transaction, index) => {
@@ -197,6 +211,8 @@ const App = {
     });
 
     Dom.updateBalance();
+
+    Storage.set(Transaction.all)
   },
   reload() {
     Dom.clearTransactions();
