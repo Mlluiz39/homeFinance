@@ -27,11 +27,6 @@ const transactions = [
     amount: -20012,
     date: "23/01/2021",
   },
-  {
-    description: "App",
-    amount: 200000,
-    date: "23/01/2021",
-  },
 ];
 
 const Transaction = {
@@ -60,7 +55,6 @@ const Transaction = {
 
   expenses() {
     let expense = 0;
-
     Transaction.all.forEach((transaction) => {
       if (transaction.amount < 0) {
         expense += transaction.amount;
@@ -73,7 +67,6 @@ const Transaction = {
   total() {
     return Transaction.incomes() + Transaction.expenses();
 
-    return total;
   },
 };
 
@@ -134,7 +127,7 @@ const Utils = {
 
   formatdate(date) {
     const splittedDate = date.split("-");
-    return `${splittedDate[2]}/${splittedDate[1]}/${splittedDate[0]}`;
+    return `${splittedDate[2]}/${splittedDate[1]}/${splittedDate[0]}`
   },
 
   formatCurrency(value) {
@@ -189,7 +182,13 @@ const Form = {
       description,
       amount,
       date,
-    };
+    }
+  },
+
+  clearFields() {
+    Form.description.value = ""
+    Form.amount.value = ""
+    Form.date.value = ""
   },
 
   submit(event) {
@@ -198,7 +197,9 @@ const Form = {
     try {
       Form.validateFields();
       const transaction = Form.formatValues();
-      
+      Transaction.add(transaction)
+      Form.clearFields()
+      Modal.close()
     } catch (error) {
       alert(error.message);
     }
@@ -213,7 +214,6 @@ const App = {
 
     Dom.updateBalance();
   },
-
   reload() {
     Dom.clearTransactions();
     App.init();
